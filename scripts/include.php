@@ -4,6 +4,10 @@ date_default_timezone_set('UTC');
 
 if (file_exists(__DIR__ . '/config.json')) {
 	$config = json_decode(file_get_contents(__DIR__ . '/config.json'), true);
+
+	if ($error = json_last_error()) {
+		exit("Error parsing config.json: $error\n");
+	}
 }
 
 function __autoload($class) {
@@ -32,12 +36,6 @@ function articles() {
 	 }
 
 	 return $items;
-}
-
-function urls() {
-	return array_map(function($article) {
-		return sprintf('"%s"', $article['url']);
-	}, articles());
 }
 
 function clean_files($pattern) {

@@ -7,6 +7,10 @@ clean_files(OUTPUT_DIR . '/*.json');
 
 $client = new CurlClient;
 
+$urls = array_map(function($article) {
+	return sprintf('"%s"', $article['url']);
+}, articles());
+
 foreach (array_chunk(urls(), 50) as $i => $urls) {
 	$file = OUTPUT_DIR . sprintf('/%d.json', $i);
 	$output = fopen($file, 'w');
