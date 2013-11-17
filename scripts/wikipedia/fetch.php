@@ -9,7 +9,6 @@ $client = new CurlClient;
 
 foreach (articles() as $i => $article) {
 	$file = OUTPUT_DIR . sprintf('/%d.json', $i);
-	$output = fopen($file, 'w');
 
 	$params = array(
 		'action' => 'query',
@@ -19,6 +18,7 @@ foreach (articles() as $i => $article) {
 		'srsearch' => sprintf('"%s"', $article['doi']),
 	);
 
+	$output = fopen($file, 'w');
 	$client->get('https://en.wikipedia.org/w/api.php', $params, $output);
 	fclose($output);
 

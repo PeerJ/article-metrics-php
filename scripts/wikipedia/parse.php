@@ -6,7 +6,7 @@ define('INPUT_DIR', datadir('/wikipedia/original'));
 define('OUTPUT_DIR', datadir('/wikipedia'));
 
 $output = fopen(OUTPUT_DIR . '/wikipedia.csv', 'w');
-fputcsv($output, array('doi', 'mentions'));
+fputcsv($output, array('doi', 'mentions', 'pages'));
 
 $files = glob(INPUT_DIR . '/*.json');
 sort($files, SORT_NATURAL);
