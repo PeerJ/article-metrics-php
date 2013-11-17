@@ -50,7 +50,7 @@ class GoogleMetrics extends Metrics
 			$json = file_get_contents($file);
 			$item = json_decode($json, true);
 
-			preg_match('/^ga:hostname==(.+),ga:pagePath==(.+)$', $item['query']['filters'], $matches);
+			preg_match('/^ga:hostname==(.+);ga:pagePath==(.+)$/', $item['query']['filters'], $matches);
 
 			$data = array(
 				'url' => 'https://' . $matches[1] . $matches[2],
