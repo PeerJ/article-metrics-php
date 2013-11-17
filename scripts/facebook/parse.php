@@ -6,7 +6,7 @@ define('INPUT_DIR', datadir('/facebook/original'));
 define('OUTPUT_DIR', datadir('/facebook'));
 
 $output = fopen(OUTPUT_DIR . '/facebook.csv', 'w');
-fputcsv($output, array('url', 'likes', 'shares', 'clicks', 'comments'));
+fputcsv($output, array('url', 'likes', 'shares', 'comments'));
 
 $files = glob(INPUT_DIR . '/*.json');
 sort($files, SORT_NATURAL);
@@ -20,7 +20,6 @@ foreach ($files as $file) {
 			$item['url'],
 			$item['like_count'],
 			$item['share_count'],
-			$item['click_count'],
 			$item['comment_count'],
 		);
 
