@@ -11,7 +11,7 @@ $urls = array_map(function($article) {
 	return sprintf('"%s"', $article['url']);
 }, articles());
 
-foreach (array_chunk(urls(), 50) as $i => $urls) {
+foreach (array_chunk($urls, 50) as $i => $someURLs) {
 	$file = OUTPUT_DIR . sprintf('/%d.json', $i);
 	$output = fopen($file, 'w');
 
@@ -29,7 +29,7 @@ foreach (array_chunk(urls(), 50) as $i => $urls) {
 		'v' => '1.0',
 		'method' => 'links.getStats',
 		'format' => 'json',
-		'urls' => implode(',', $urls),
+		'urls' => implode(',', $someURLs),
 	);
 
 	$client->get('http://api.ak.facebook.com/restserver.php', $params, $output);
