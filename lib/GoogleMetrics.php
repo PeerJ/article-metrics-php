@@ -34,7 +34,7 @@ class GoogleMetrics extends Metrics
 			'start-date' => '2005-01-01',
 			'end-date' => 'today',
 			'metrics' => 'ga:visitors,ga:uniquepageviews,ga:pageviews',
-			'filters' => sprintf('ga:hostname==%s,ga:pagePath==%s', $parts['host'], $parts['path']),
+			'filters' => sprintf('ga:hostname==%s;ga:pagePath==%s', $parts['host'], $parts['path']),
 			'max-results' => 1,
 		);
 
