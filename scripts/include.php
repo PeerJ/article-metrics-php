@@ -43,3 +43,23 @@ function clean_files($pattern) {
 		unlink($file);
 	}
 }
+
+function id_from_doi($doi) {
+	preg_match('/(\d+)$/', $doi, $matches);
+
+	if (!$matches) {
+		exit("No ID in DOI: $doi\n");
+	}
+
+	return $matches[1];
+}
+
+function id_from_url($url) {
+	preg_match('/(\d+)\/?$/', $url, $matches);
+
+	if (!$matches) {
+		exit("No ID in URL: $url\n");
+	}
+
+	return $matches[1];
+}
