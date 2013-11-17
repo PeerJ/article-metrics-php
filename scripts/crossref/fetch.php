@@ -13,13 +13,13 @@ foreach (articles() as $i => $article) {
 	print "$file\n";
 
 	$params = array(
-		'format' => 'xml',
-		'pid' => $config['crossref']['auth'],
-		'id' => $article['doi'],
+		'usr' => $config['crossref']['user'],
+		'pwd' => $config['crossref']['pass'],
+		'doi' => $article['doi'],
 	);
 
 	$output = fopen($file, 'w');
-	$client->get('http://doi.crossref.org/servlet/query', $params, $output);
+	$client->get('http://doi.crossref.org/servlet/getForwardLinks', $params, $output);
 	fclose($output);
 
 	// TODO: rate limit/sleep?

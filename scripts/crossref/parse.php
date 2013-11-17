@@ -17,13 +17,13 @@ foreach ($files as $file) {
 	$doc->load($file, LIBXML_NOENT | LIBXML_NONET);
 
 	$xpath = new DOMXPath($doc);
-	$xpath->registerNamespace('q', 'http://www.crossref.org/qrschema/3.0');
+	$xpath->registerNamespace('q', 'http://www.crossref.org/qrschema/2.0');
 
-	$query = $xpath->query('q:query_result/q:body/q:query')->item(0);
+	$body = $xpath->query('q:query_result/q:body')->item(0);
 
 	$data = array(
-		$xpath->evaluate('string(q:doi)', $query),
-		$xpath->evaluate('number(q:crm-item[@name="citedby-count"])', $query),
+		'doi' => $xpath->evaluate('string(q:forward_link[1]/@doi)', $body),
+		'count' => $xpath->evaluate('count(q:forward_link/q:journal_cite)', $body),
 	);
 
 	fputcsv($output, $data);
