@@ -28,15 +28,15 @@ class MendeleyMetrics extends Metrics
 	public function parse()
 	{
 		$output = $this->getOutputFile();
-		fputcsv($output, array('doi', 'readers'));
+		fputcsv($output, array('id', 'readers'));
 
 		foreach ($this->files() as $file) {
 			$json = file_get_contents($file);
 			$item = json_decode($json, true);
 
 			$data = array(
-				$item['identifiers']['doi'],
-				$item['stats']['readers'],
+				'id' => basename($file, '.' . $this->suffix),
+				'readers' => $item['stats']['readers'],
 			);
 
 			fputcsv($output, $data);

@@ -22,7 +22,7 @@ class CrossRefMetrics extends Metrics
 	public function parse()
 	{
 		$output = $this->getOutputFile();
-		fputcsv($output, array('doi', 'count'));
+		fputcsv($output, array('id', 'count'));
 
 		foreach ($this->files() as $file) {
 			$doc = new DOMDocument;
@@ -34,7 +34,7 @@ class CrossRefMetrics extends Metrics
 			$body = $xpath->query('q:query_result/q:body')->item(0);
 
 			$data = array(
-				'doi' => $xpath->evaluate('string(q:forward_link[1]/@doi)', $body),
+				'id' => basename($file, '.' . $this->suffix),
 				'count' => $xpath->evaluate('count(q:forward_link/q:journal_cite)', $body),
 			);
 

@@ -21,7 +21,7 @@ class FacebookMetrics extends Metrics
 	public function parse()
 	{
 		$output = $this->getOutputFile();
-		fputcsv($output, array('url', 'likes', 'shares', 'comments'));
+		fputcsv($output, array('id', 'likes', 'shares', 'comments'));
 
 		foreach ($this->files() as $file) {
 			$json = file_get_contents($file);
@@ -29,7 +29,7 @@ class FacebookMetrics extends Metrics
 
 			foreach ($items as $item) {
 				$data = array(
-					'url' => $item['url'],
+					'id' => basename($file, '.' . $this->suffix),
 					'likes' => $item['like_count'],
 					'shares' => $item['share_count'],
 					'comments' => $item['comment_count'],

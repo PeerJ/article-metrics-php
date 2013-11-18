@@ -59,10 +59,14 @@ class PMCMetrics extends Metrics
 
 		// output total counts per article
 		$output = $this->getOutputFile();
-		fputcsv($output, array('doi', 'count'));
+		fputcsv($output, array('id', 'count'));
 
 		foreach ($items as $doi => $count) {
-			$data = array($doi, $count);
+			$data = array(
+				'id' => $this->id_from_doi($doi),
+				'count' => $count,
+			);
+
 			fputcsv($output, $data);
 		}
 

@@ -18,15 +18,15 @@ class TwitterMetrics extends Metrics
 	public function parse()
 	{
 		$output = $this->getOutputFile();
-		fputcsv($output, array('url', 'count'));
+		fputcsv($output, array('id', 'count'));
 
 		foreach ($this->files() as $file) {
 			$json = file_get_contents($file);
 			$item = json_decode($json, true);
 
 			$data = array(
-				$item['url'],
-				$item['count']
+				'id' => basename($file, '.' . $this->suffix),
+				'count' => $item['count']
 			);
 
 			fputcsv($output, $data);

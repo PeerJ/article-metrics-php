@@ -19,7 +19,7 @@ class ScopusMetrics extends Metrics
 	public function parse()
 	{
 		$output = $this->getOutputFile();
-		fputcsv($output, array('doi', 'link', 'count'));
+		fputcsv($output, array('id', 'link', 'count'));
 
 		foreach ($this->files() as $file) {
 			$jsonp = file_get_contents($file);
@@ -44,7 +44,7 @@ class ScopusMetrics extends Metrics
 			$item = $data['OK']['results'][0];
 
 			$data = array(
-				'doi' => $item['doi'],
+				'id' => basename($file, '.' . $this->suffix),
 		        'link' => $item['inwardurl'],
 		        'count' => (int) $item['citedbycount'],
 		    );

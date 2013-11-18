@@ -31,7 +31,7 @@ class GoogleMetrics extends Metrics
 		$params = array(
 			'key' => $this->config['key'],
 			'ids' => $this->config['id'],
-			'start-date' => '2005-01-01',
+			'start-date' => '2005-01-01', // TODO $this->config['earliest']
 			'end-date' => 'today',
 			'metrics' => 'ga:visitors,ga:uniquepageviews,ga:pageviews',
 			'filters' => sprintf('ga:hostname==%s;ga:pagePath==%s', $parts['host'], $parts['path']),
@@ -44,16 +44,14 @@ class GoogleMetrics extends Metrics
 	public function parse()
 	{
 		$output = $this->getOutputFile();
-		fputcsv($output, array('url', 'visitors', 'unique pageviews', 'pageviews'));
+		fputcsv($output, array('id', 'visitors', 'unique pageviews', 'pageviews'));
 
 		foreach ($this->files() as $file) {
 			$json = file_get_contents($file);
 			$item = json_decode($json, true);
 
-			preg_match('/^ga:hostname==(.+);ga:pagePath==(.+)$/', $item['query']['filters'], $matches);
-
 			$data = array(
-				'url' => 'https://' . $matches[1] . $matches[2],
+				'id' => basename($file, '.' . $this->suffix),
 				'visitors' => $item['totalsForAllResults']['ga:visitors'],
 				'unique pageviews' => $item['totalsForAllResults']['ga:uniquepageviews'],
 				'pageviews' => $item['totalsForAllResults']['ga:pageviews'],

@@ -20,7 +20,7 @@ class DryadMetrics extends Metrics
 	public function parse()
 	{
 		$output = $this->getOutputFile();
-		fputcsv($output, array('doi', 'count'));
+		fputcsv($output, array('id', 'count'));
 
 		foreach ($this->files() as $file) {
 			$json = file_get_contents($file);
@@ -29,7 +29,7 @@ class DryadMetrics extends Metrics
 			$doi = preg_replace('#^dc.relation.isreferencedby:#', '', $item['responseHeader']['params']['q']);
 
 			$data = array(
-				'doi' => $doi,
+				'id' => basename($file, '.' . $this->suffix),
 				'count' => $item['response']['numFound'],
 			);
 
