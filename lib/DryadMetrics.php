@@ -28,8 +28,6 @@ class DryadMetrics extends Metrics
             $json = file_get_contents($file);
             $item = json_decode($json, true);
 
-            $doi = preg_replace('#^dc.relation.isreferencedby:#', '', $item['responseHeader']['params']['q']);
-
             $data = array(
                 'id' => basename($file, '.' . $this->suffix),
                 'count' => $item['response']['numFound'],

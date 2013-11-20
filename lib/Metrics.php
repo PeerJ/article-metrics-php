@@ -4,7 +4,7 @@ namespace PeerJ\ArticleMetrics;
 
 abstract class Metrics
 {
-    /** @var cURL */
+    /** @var resource */
     protected $curl;
 
     /** @var array */
@@ -136,7 +136,7 @@ abstract class Metrics
 
             case 429: // rate limit
                 if ($tries == 5) {
-                    throw new Exception('Rate limited too many times');
+                    throw new \Exception('Rate limited too many times');
                 }
 
                 $this->delay();
@@ -147,16 +147,21 @@ abstract class Metrics
                 // TODO: unlink file?
                 $message = sprintf('Response not OK: %d %s', $code, $result);
 
-                throw new Exception($message);
+                throw new \Exception($message);
         }
     }
 
     /**
      * store response headers in an array
      *
+     * @param resource $curl
+     * @param string   $header
+     *
      * @return int header length
      */
-    protected function header($curl, $header)
+    protected function header(
+        /** @noinspection PhpUnusedParameterInspection */
+        $curl, $header)
     {
         $parts = preg_split('/:\s+/', $header, 2);
 

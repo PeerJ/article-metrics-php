@@ -27,10 +27,10 @@ class CrossRefMetrics extends Metrics
         fputcsv($output, array('id', 'count'));
 
         foreach ($this->files() as $file) {
-            $doc = new DOMDocument;
+            $doc = new \DOMDocument;
             $doc->load($file, LIBXML_NOENT | LIBXML_NONET);
 
-            $xpath = new DOMXPath($doc);
+            $xpath = new \DOMXPath($doc);
             $xpath->registerNamespace('q', 'http://www.crossref.org/qrschema/2.0');
 
             $body = $xpath->query('q:query_result/q:body')->item(0);

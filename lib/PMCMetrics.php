@@ -10,7 +10,7 @@ class PMCMetrics extends Metrics
 
     public function fetch($article)
     {
-        throw new Exception('Call fetchAll() instead');
+        throw new \Exception('Call fetchAll() instead');
     }
 
     public function fetchAll()
@@ -43,10 +43,10 @@ class PMCMetrics extends Metrics
 
         // sum counts for each month
         foreach ($this->files() as $file) {
-            $doc = new DOMDocument;
+            $doc = new \DOMDocument;
             $doc->load($file);
 
-            $xpath = new DOMXPath($doc);
+            $xpath = new \DOMXPath($doc);
             $nodes = $xpath->query('articles/article');
 
             foreach ($nodes as $node) {

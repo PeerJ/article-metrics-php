@@ -23,7 +23,7 @@ class MendeleyMetrics extends Metrics
             );
 
             $this->get($url, $params, $file);
-        } catch (Exception $e) { // ignore 404 errors
+        } catch (\Exception $e) { // ignore 404 errors
             print $e->getMessage() . "\n";
             unlink($file);
         }
