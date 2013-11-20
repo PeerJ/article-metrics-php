@@ -2,6 +2,9 @@
 
 namespace PeerJ\ArticleMetrics;
 
+/**
+ * Base class for article metrics, to be extended for specific sources
+ */
 abstract class Metrics
 {
     /** @var resource */
@@ -22,15 +25,32 @@ abstract class Metrics
     /** @var array */
     protected $config = array();
 
-    abstract public function fetch($articles);
+    /**
+     * Fetch metrics for a single article
+     *
+     * @param array $article
+     *
+     * @throws \Exception
+     */
+    abstract public function fetch($article);
 
+    /**
+     * Parse the output for all articles
+     *
+     * @return void
+     */
     abstract public function parse();
 
     /**
-     * read configuration and create a cURL instance
+     * Create a cURL instance
+     * Set configuration
+     *
+     * @param array $config
      */
-    public function __construct($config = array())
+    public function __construct(array $config)
     {
+        $this->config = $config;
+
         $this->curl = curl_init();
 
         curl_setopt_array(
@@ -45,15 +65,29 @@ abstract class Metrics
                 CURLOPT_ENCODING => 'gzip,deflate',
             )
         );
-
-        if (isset($config[$this->name])) {
-            $this->config = $config[$this->name];
-        }
     }
 
+    /**
+     * Fetch metrics for all articles
+     *
+     * @throws \Exception
+     */
+    public function fetchAll()
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    /**
+     * Make sure the output directory for data exists
+     *
+     * @param string $dir
+     */
     public function setDataDir($dir)
     {
-        // TODO: verify $this->name is set?
+        if (!isset($this->name)) {
+            exit(sprintf("The 'name' property must be set for class %s\n", get_class()));
+        }
+
         $this->dir = rtrim($dir, '/') . '/' . $this->name;
 
         $sourcedir = $this->dir . '/original';
@@ -63,27 +97,33 @@ abstract class Metrics
         }
     }
 
+    /**
+     * Build the path to the output directory for data
+     *
+     * @param array $article
+     *
+     * @return string
+     */
     protected function getDataFile($article)
     {
         return $this->dir . sprintf('/original/%d.%s', $article['id'], $this->suffix);
     }
 
+    /**
+     * Open the output CSV file for writing
+     *
+     * @return resource
+     */
     protected function getOutputFile()
     {
         return fopen($this->dir . '/' . $this->name . '.csv', 'w');
     }
 
-    protected function id_from_doi($doi)
-    {
-        preg_match('/(\d+)$/', $doi, $matches);
-
-        if (!$matches) {
-            exit("No ID in DOI: $doi\n");
-        }
-
-        return $matches[1];
-    }
-
+    /**
+     * @param $url
+     *
+     * @return mixed
+     */
     protected function id_from_url($url)
     {
         preg_match('/(\d+)\/?$/', $url, $matches);
@@ -102,6 +142,9 @@ abstract class Metrics
         }
     }
 
+    /**
+     * @return array
+     */
     protected function files()
     {
         $files = glob($this->dir . '/original/*.' . $this->suffix);
@@ -110,6 +153,15 @@ abstract class Metrics
         return $files;
     }
 
+    /**
+     * @param       $url
+     * @param array $params
+     * @param       $file
+     * @param int   $tries
+     *
+     * @return bool
+     * @throws \Exception
+     */
     public function get($url, array $params, $file, $tries = 0)
     {
         if (!empty($params)) {
@@ -132,7 +184,8 @@ abstract class Metrics
 
         switch ($code) {
             case 200:
-                return true;
+                // nothing to return, as writing to file
+                break;
 
             case 429: // rate limit
                 if ($tries == 5) {
@@ -140,8 +193,8 @@ abstract class Metrics
                 }
 
                 $this->delay();
-
-                return $this->get($url, array(), $file, ++$tries);
+                $this->get($url, array(), $file, ++$tries);
+                break;
 
             default:
                 // TODO: unlink file?

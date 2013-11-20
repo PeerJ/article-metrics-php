@@ -2,22 +2,28 @@
 
 namespace PeerJ\ArticleMetrics;
 
+/**
+ * Fetch cited-by counts for an article, from Scopus
+ */
 class ScopusMetrics extends Metrics
 {
+    /** @{inheritdoc} */
     protected $name = 'scopus';
 
+    /** @{inheritdoc} */
     public function fetch($article)
     {
         $file = $this->getDataFile($article);
 
         $params = array(
             'apiKey' => $this->config['api_key'],
-            'search' => sprintf('DOI(%s)', $article['doi']),
+            'search' => sprintf('DOI(%s)', $article['doi']), // could join multiple queries with OR?
         );
 
         $this->get('http://searchapi.scopus.com/documentSearch.url', $params, $file);
     }
 
+    /** @{inheritdoc} */
     public function parse()
     {
         $output = $this->getOutputFile();

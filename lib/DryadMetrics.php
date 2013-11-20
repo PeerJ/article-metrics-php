@@ -2,10 +2,15 @@
 
 namespace PeerJ\ArticleMetrics;
 
+/**
+ * Fetch counts of datasets mentioning an article, from Dryad
+ */
 class DryadMetrics extends Metrics
 {
+    /** @{inheritdoc} */
     protected $name = 'dryad';
 
+    /** @{inheritdoc} */
     public function fetch($article)
     {
         $file = $this->getDataFile($article);
@@ -19,6 +24,7 @@ class DryadMetrics extends Metrics
         $this->get('http://datadryad.org/solr/search/select/', $params, $file);
     }
 
+    /** @{inheritdoc} */
     public function parse()
     {
         $output = $this->getOutputFile();

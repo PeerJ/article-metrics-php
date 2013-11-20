@@ -10,13 +10,18 @@ namespace PeerJ\ArticleMetrics;
 // copy bearer header
 // TODO: proper authorisation
 
+/**
+ * Fetch counts of visitors, unique views and total pageviews for an article, from Google
+ */
 class GoogleMetrics extends Metrics
 {
+    /** @{inheritdoc} */
     protected $name = 'google';
 
-    public function __construct()
+    /** @{inheritdoc} */
+    public function __construct(array $config)
     {
-        parent::__construct();
+        parent::__construct($config);
 
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
             'Authorization: Bearer ' . $this->config['access_token'],
@@ -24,6 +29,7 @@ class GoogleMetrics extends Metrics
 		));
     }
 
+    /** @{inheritdoc} */
     public function fetch($article)
     {
         $file = $this->getDataFile($article);
@@ -33,7 +39,7 @@ class GoogleMetrics extends Metrics
         $params = array(
             'key' => $this->config['key'],
             'ids' => $this->config['id'],
-            'start-date' => '2005-01-01', // TODO $this->config['earliest']
+            'start-date' => $this->config['earliest'], // e.g. 2005-01-01
             'end-date' => 'today',
             'metrics' => 'ga:visitors,ga:uniquepageviews,ga:pageviews',
             'filters' => sprintf('ga:hostname==%s;ga:pagePath==%s', $parts['host'], $parts['path']),
@@ -43,6 +49,7 @@ class GoogleMetrics extends Metrics
         $this->get('https://www.googleapis.com/analytics/v3/data/ga', $params, $file);
     }
 
+    /** @{inheritdoc} */
     public function parse()
     {
         $output = $this->getOutputFile();

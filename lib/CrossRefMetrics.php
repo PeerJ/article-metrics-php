@@ -2,12 +2,18 @@
 
 namespace PeerJ\ArticleMetrics;
 
+/**
+ * Fetch cited-by counts, from CrossRef
+ */
 class CrossRefMetrics extends Metrics
 {
+    /** @{inheritdoc} */
     protected $name = 'crossref';
 
+    /** @{inheritdoc} */
     protected $suffix = 'xml';
 
+    /** @{inheritdoc} */
     public function fetch($article)
     {
         $file = $this->getDataFile($article);
@@ -21,6 +27,7 @@ class CrossRefMetrics extends Metrics
         $this->get('http://doi.crossref.org/servlet/getForwardLinks', $params, $file);
     }
 
+    /** @{inheritdoc} */
     public function parse()
     {
         $output = $this->getOutputFile();

@@ -2,17 +2,24 @@
 
 namespace PeerJ\ArticleMetrics;
 
+/**
+ * Fetch metrics for viewers of an article, from PubMed Central
+ */
 class PMCMetrics extends Metrics
 {
+    /** @{inheritdoc} */
     protected $name = 'pmc';
 
+    /** @{inheritdoc} */
     protected $suffix = 'xml';
 
+    /** @{inheritdoc} */
     public function fetch($article)
     {
-        throw new \Exception('Call fetchAll() instead');
+        throw new \Exception('Use fetchAll instead');
     }
 
+    /** @{inheritdoc} */
     public function fetchAll()
     {
         $date = new \DateTime('-1 MONTH'); // last month
@@ -37,6 +44,7 @@ class PMCMetrics extends Metrics
         } while ($date > $earliest);
     }
 
+    /** @{inheritdoc} */
     public function parse()
     {
         $items = array();
@@ -75,5 +83,24 @@ class PMCMetrics extends Metrics
         }
 
         fclose($output);
+    }
+
+
+    /**
+     * TODO: ask for the article ID in the response
+     *
+     * @param string $doi
+     *
+     * @return string
+     */
+    protected function id_from_doi($doi)
+    {
+        preg_match('/(\d+)$/', $doi, $matches);
+
+        if (!$matches) {
+            exit("No ID in DOI: $doi\n");
+        }
+
+        return $matches[1];
     }
 }

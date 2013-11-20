@@ -2,10 +2,17 @@
 
 namespace PeerJ\ArticleMetrics;
 
+/**
+ * Fetch counts of likes, shares and comments for an article, from Facebook
+ *
+ * Facebook resolves alternate URLs to the destination URL and combines counts
+ */
 class FacebookMetrics extends Metrics
 {
+    /** @{inheritdoc} */
     protected $name = 'facebook';
 
+    /** @{inheritdoc} */
     public function fetch($article)
     {
         $file = $this->getDataFile($article);
@@ -14,12 +21,13 @@ class FacebookMetrics extends Metrics
             'v' => '1.0',
             'method' => 'links.getStats',
             'format' => 'json',
-            'urls' => sprintf('"%s"', $article['url']),
+            'urls' => sprintf('"%s"', $article['url']), // could join multiple URLs with a comma
         );
 
         $this->get('http://api.ak.facebook.com/restserver.php', $params, $file);
     }
 
+    /** @{inheritdoc} */
     public function parse()
     {
         $output = $this->getOutputFile();

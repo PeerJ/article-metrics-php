@@ -2,10 +2,15 @@
 
 namespace PeerJ\ArticleMetrics;
 
+/**
+ * Fetch counts of pages mentioning an article, from Wikipedia
+ */
 class WikipediaMetrics extends Metrics
 {
+    /** @{inheritdoc} */
     protected $name = 'wikipedia';
 
+    /** @{inheritdoc} */
     public function fetch($article)
     {
         $file = $this->getDataFile($article);
@@ -21,6 +26,7 @@ class WikipediaMetrics extends Metrics
         $this->get('https://en.wikipedia.org/w/api.php', $params, $file);
     }
 
+    /** @{inheritdoc} */
     public function parse()
     {
         $output = $this->getOutputFile();

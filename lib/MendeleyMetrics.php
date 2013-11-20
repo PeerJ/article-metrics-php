@@ -2,10 +2,15 @@
 
 namespace PeerJ\ArticleMetrics;
 
+/**
+ * Fetch counts of readers of an article, from Mendeley
+ */
 class MendeleyMetrics extends Metrics
 {
+    /** @{inheritdoc} */
     protected $name = 'mendeley';
 
+    /** @{inheritdoc} */
     public function fetch($article)
     {
         $file = $this->getDataFile($article);
@@ -29,6 +34,7 @@ class MendeleyMetrics extends Metrics
         }
     }
 
+    /** @{inheritdoc} */
     public function parse()
     {
         $output = $this->getOutputFile();
