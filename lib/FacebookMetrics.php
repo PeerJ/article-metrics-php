@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 class FacebookMetrics extends Metrics
 {
 	protected $name = 'facebook';

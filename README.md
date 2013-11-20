@@ -1,1 +1,3 @@
-Given an article with DOI and/or URL, fetch usage metrics from a variety of services.
+Fetch usage metrics for articles from a variety of services.
+
+TODO: usage examples

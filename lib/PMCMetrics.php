@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 class PMCMetrics extends Metrics
 {
 	protected $name = 'pmc';

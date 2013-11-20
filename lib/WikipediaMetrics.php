@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 class WikipediaMetrics extends Metrics
 {
 	protected $name = 'wikipedia';

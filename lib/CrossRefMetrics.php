@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 class CrossRefMetrics extends Metrics
 {
 	protected $name = 'crossref';

@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 class MendeleyMetrics extends Metrics
 {
 	protected $name = 'mendeley';

@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 class ScopusMetrics extends Metrics
 {
 	protected $name = 'scopus';

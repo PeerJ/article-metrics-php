@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 // https://cloud.google.com/console
 // enable Analytics API
 // https://developers.google.com/apis-explorer/#s/analytics/v3/analytics.data.ga.get

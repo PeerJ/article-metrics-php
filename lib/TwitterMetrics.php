@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 class TwitterMetrics extends Metrics
 {
 	protected $name = 'twitter';

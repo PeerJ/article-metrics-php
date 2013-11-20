@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 class DryadMetrics extends Metrics
 {
 	protected $name = 'dryad';

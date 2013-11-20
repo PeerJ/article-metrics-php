@@ -1,5 +1,7 @@
 <?php
 
+namespace PeerJ\ArticleMetrics;
+
 abstract class Metrics {
 	/** @var cURL */
 	protected $curl;
@@ -26,7 +28,7 @@ abstract class Metrics {
 	/**
 	 * read configuration and create a cURL instance
 	 */
-	public function __construct() {
+	public function __construct($config = array()) {
 		$this->curl = curl_init();
 
 		curl_setopt_array($this->curl, array(
@@ -38,16 +40,6 @@ abstract class Metrics {
 			CURLOPT_HEADERFUNCTION => array($this, 'header'),
 			CURLOPT_ENCODING => 'gzip,deflate',
 		));
-
-		$this->configure();
-	}
-
-	protected function configure() {
-		$config = json_decode(file_get_contents(__DIR__ . '/../config.json'), true);
-
-		if ($error = json_last_error()) {
-			exit("Error parsing config.json: $error\n");
-		}
 
 		if (isset($config[$this->name])) {
 			$this->config = $config[$this->name];

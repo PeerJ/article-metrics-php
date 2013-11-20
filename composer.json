@@ -1,0 +1,22 @@
+{
+  "name": "peerj/article-metrics",
+  "description": "Article-Level Metrics",
+  "type": "library",
+  "license": "",
+  "authors": [
+    {
+      "name": "Alf Eaton",
+      "email": "alf@peerj.com"
+    }
+  ],
+  "homepage": "https://github.com/PeerJ/article-metrics",
+  "require": {
+    "php": ">=5.3.0",
+    "ext-xsl": "*"
+  },
+  "autoload": {
+    "psr-0": {
+      "PeerJ\\ArticleMetrics\\": "lib/"
+    }
+  }
+}
