@@ -37,7 +37,7 @@ class WikipediaMetrics extends Metrics
             $item = json_decode($json, true);
 
             $data = array(
-                'id' => basename($file, '.' . $this->suffix),
+                'id' => $this->idFromFile($file),
                 'mentions' => $item['query']['searchinfo']['totalhits'],
                 'pages' => implode(
                     ',',

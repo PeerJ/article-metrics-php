@@ -43,7 +43,7 @@ class CrossRefMetrics extends Metrics
             $body = $xpath->query('q:query_result/q:body')->item(0);
 
             $data = array(
-                'id' => basename($file, '.' . $this->suffix),
+                'id' => $this->idFromFile($file),
                 'count' => $xpath->evaluate('count(q:forward_link/q:journal_cite)', $body),
             );
 

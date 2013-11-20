@@ -39,7 +39,7 @@ class FacebookMetrics extends Metrics
 
             foreach ($items as $item) {
                 $data = array(
-                    'id' => basename($file, '.' . $this->suffix),
+                    'id' => $this->idFromFile($file),
                     'likes' => $item['like_count'],
                     'shares' => $item['share_count'],
                     'comments' => $item['comment_count'],

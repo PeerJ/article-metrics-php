@@ -60,7 +60,7 @@ class GoogleMetrics extends Metrics
             $item = json_decode($json, true);
 
             $data = array(
-                'id' => basename($file, '.' . $this->suffix),
+                'id' => $this->idFromFile($file),
                 'visitors' => $item['totalsForAllResults']['ga:visitors'],
                 'unique pageviews' => $item['totalsForAllResults']['ga:uniquepageviews'],
                 'pageviews' => $item['totalsForAllResults']['ga:pageviews'],

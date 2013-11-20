@@ -120,29 +120,18 @@ abstract class Metrics
     }
 
     /**
-     * @param $url
+     * @param string $file
      *
-     * @return mixed
+     * @return string
      */
-    protected function id_from_url($url)
+    protected function idFromFile($file)
     {
-        preg_match('/(\d+)\/?$/', $url, $matches);
-
-        if (!$matches) {
-            exit("No ID in URL: $url\n");
-        }
-
-        return $matches[1];
-    }
-
-    public function clean()
-    {
-        foreach (glob($this->dir . '/original/*.' . $this->suffix) as $file) {
-            unlink($file);
-        }
+        return basename($file, '.' . $this->suffix);
     }
 
     /**
+     * Find all the data files for this metric
+     *
      * @return array
      */
     protected function files()
@@ -154,10 +143,20 @@ abstract class Metrics
     }
 
     /**
-     * @param       $url
-     * @param array $params
-     * @param       $file
-     * @param int   $tries
+     * Delete all the data files for this metric
+     */
+    public function clean()
+    {
+        array_map('unlink', $this->files());
+    }
+
+    /**
+     * Fetch a URL and write the contents to a file
+     *
+     * @param string $url
+     * @param array  $params
+     * @param string $file
+     * @param int    $tries
      *
      * @return bool
      * @throws \Exception
@@ -205,7 +204,7 @@ abstract class Metrics
     }
 
     /**
-     * store response headers in an array
+     * Store response headers in an array
      *
      * @param resource $curl
      * @param string   $header
@@ -227,7 +226,7 @@ abstract class Metrics
     }
 
     /**
-     * delay if rate limit is reached
+     * Delay if rate limit is reached
      */
     protected function delay()
     {

@@ -16,7 +16,7 @@ class ScopusMetrics extends Metrics
         $file = $this->getDataFile($article);
 
         $params = array(
-            'apiKey' => $this->config['api_key'],
+            'apiKey' => $this->config['api_key'], // could set this in header instead
             'search' => sprintf('DOI(%s)', $article['doi']), // could join multiple queries with OR?
         );
 
@@ -52,7 +52,7 @@ class ScopusMetrics extends Metrics
             $item = $data['OK']['results'][0];
 
             $data = array(
-                'id' => basename($file, '.' . $this->suffix),
+                'id' => $this->idFromFile($file),
                 'link' => $item['inwardurl'],
                 'count' => (int) $item['citedbycount'],
             );
