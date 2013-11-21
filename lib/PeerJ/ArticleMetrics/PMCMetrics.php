@@ -19,7 +19,11 @@ class PMCMetrics extends Metrics
         throw new \Exception('Use fetchAll instead');
     }
 
-    /** @{inheritdoc} */
+    /**
+     * Fetch metrics for all articles
+     *
+     * @throws \Exception
+     */
     public function fetchAll()
     {
         $date = new \DateTime('-1 MONTH'); // last month

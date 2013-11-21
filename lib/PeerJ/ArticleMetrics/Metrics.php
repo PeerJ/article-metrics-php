@@ -68,16 +68,6 @@ abstract class Metrics
     }
 
     /**
-     * Fetch metrics for all articles
-     *
-     * @throws \Exception
-     */
-    public function fetchAll()
-    {
-        throw new \Exception('Not implemented');
-    }
-
-    /**
      * Make sure the output directory for data exists
      *
      * @param string $dir
