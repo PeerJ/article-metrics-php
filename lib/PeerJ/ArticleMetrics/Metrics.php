@@ -47,7 +47,7 @@ abstract class Metrics
      *
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct($config = array())
     {
         $this->config = $config;
 
@@ -148,7 +148,6 @@ abstract class Metrics
      * @param string $file
      * @param int    $tries
      *
-     * @return bool
      * @throws \Exception
      */
     public function get($url, array $params, $file, $tries = 0)
