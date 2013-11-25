@@ -41,31 +41,30 @@ class ScopusMetrics extends Metrics
         fputcsv($output, array('id', 'link', 'count'));
 
         foreach ($this->files() as $file) {
-            $jsonp = file_get_contents($file);
-            $json = preg_replace('/^null\(/', '', preg_replace('/\)$/', '', $jsonp)); // hack for JSONP response
+            $json = file_get_contents($file);
             $data = json_decode($json, true);
 
-            if (!$data['OK']) {
+            if (!$data['search-results']) {
                 print "Error in file $file\n";
                 continue;
             }
 
-            if ((int) $data['OK']['returnedResults'] === 0) {
+            if ($data['search-results']['opensearch:totalResults'] == 0) {
                 print "No results in file $file\n";
                 continue;
             }
 
-            if ((int) $data['OK']['returnedResults'] !== 1) {
+            if ($data['search-results']['opensearch:totalResults'] != 1) {
                 print "Too many results in file $file\n";
                 continue;
             }
 
-            $item = $data['OK']['results'][0];
+            $item = $data['search-results']['entry'][0];
 
             $data = array(
                 'id' => $this->idFromFile($file),
-                'link' => $item['inwardurl'],
-                'count' => (int) $item['citedbycount'],
+                'link' => $item['prism:url'],
+                'count' => $item['citedby-count'],
             );
 
             fputcsv($output, $data);
