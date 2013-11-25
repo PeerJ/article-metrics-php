@@ -27,8 +27,9 @@ class ScopusMetrics extends Metrics
         $file = $this->getDataFile($article);
 
         $params = array(
-            'field' => 'citedby-count',
             'query' => sprintf('DOI(%s)', $article['doi']), // could join multiple queries with OR?
+            'field' => 'citedby-count,doi',
+            'count' => 1,
         );
 
         $this->get('https://api.elsevier.com/content/search/index:SCOPUS', $params, $file);
