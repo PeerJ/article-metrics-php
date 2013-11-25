@@ -11,16 +11,27 @@ class ScopusMetrics extends Metrics
     protected $name = 'scopus';
 
     /** @{inheritdoc} */
+    public function __construct(array $config)
+    {
+        parent::__construct($config);
+
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
+            'X-ELS-APIKEY: ' . $this->config['api_key'],
+            'X-ELS-INSTTOKEN: ' . $this->config['inst_token'],
+        ));
+    }
+
+    /** @{inheritdoc} */
     public function fetch($article)
     {
         $file = $this->getDataFile($article);
 
         $params = array(
-            'apiKey' => $this->config['api_key'], // could set this in header instead
-            'search' => sprintf('DOI(%s)', $article['doi']), // could join multiple queries with OR?
+            'field' => 'citedby-count',
+            'query' => sprintf('DOI(%s)', $article['doi']), // could join multiple queries with OR?
         );
 
-        $this->get('http://searchapi.scopus.com/documentSearch.url', $params, $file);
+        $this->get('https://api.elsevier.com/content/search/index:SCOPUS', $params, $file);
     }
 
     /** @{inheritdoc} */
